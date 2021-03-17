@@ -1,0 +1,3374 @@
+type Query {
+  """
+  A viewer that wraps operations for all available authentication mechanisms
+  """
+  viewerAnyAuth(authorizationToken: JSON): ViewerAnyAuth
+}
+
+"""Warning: Not every request will work with this viewer type"""
+type ViewerAnyAuth {
+  """
+  List the common crop names for the crops available in a database server. 
+  
+  This call is ** required ** for multi-crop systems where data from multiple 
+  crops may be stored in the same database server. A distinct database server 
+  is defined by everything in the URL before "/brapi/v2", including host 
+  name and base path.
+  
+  This call is recommended for single crop systems to be compatible with 
+  multi-crop clients. For a single crop system the response should contain 
+  an array with exactly 1 element. 
+  
+  The common crop name can be used as a search parameter for Programs, 
+  Studies, and Germplasm.
+  
+  Equivalent to GET /commoncropnames
+  """
+  commonCropNamesResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+  ): CommonCropNamesResponse
+
+  """
+  Advanced searching for the list resource.
+  See Search Services for additional implementation details.
+  
+  Equivalent to GET /search/lists/{searchResultsDbId}
+  """
+  getSearchListsSearchResultsDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """Unique identifier which references the search results"""
+    searchResultsDbId: String!
+  ): ListsListResponse
+
+  """
+  Advanced searching for the locations resource.
+  See Search Services for additional implementation details.
+  
+  Equivalent to GET /search/locations/{searchResultsDbId}
+  """
+  getSearchLocationsSearchResultsDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """Unique identifier which references the search results"""
+    searchResultsDbId: String!
+  ): LocationListResponse
+
+  """
+  Advanced searching for the people resource.
+  
+  See Search Services for additional implementation details.
+  
+  Equivalent to GET /search/people/{searchResultsDbId}
+  """
+  getSearchPeopleSearchResultsDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """Unique identifier which references the search results"""
+    searchResultsDbId: String!
+  ): PersonListResponse
+
+  """
+  Advanced searching for the programs resource.
+  See Search Services for additional implementation details.
+  
+  Equivalent to GET /search/programs/{searchResultsDbId}
+  """
+  getSearchProgramsSearchResultsDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """Unique identifier which references the search results"""
+    searchResultsDbId: String!
+  ): ProgramListResponse
+
+  """
+  Get list of studies
+  
+  StartDate and endDate should be ISO-8601 format for dates
+  
+  Equivalent to GET /studies
+  """
+  getStudies(
+    """Filter active status true/false."""
+    active: Boolean
+
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """Common name for the crop associated with this study"""
+    commonCropName: String
+
+    """
+    An external reference ID. Could be a simple string or a URI. (use with `externalReferenceSource` parameter)
+    """
+    externalReferenceID: String
+
+    """
+    An identifier for the source system or database of an external reference (use with `externalReferenceID` parameter)
+    """
+    externalReferenceSource: String
+
+    """Filter by germplasm DbId"""
+    germplasmDbId: String
+
+    """Filter by location"""
+    locationDbId: String
+
+    """Filter by observation variable DbId"""
+    observationVariableDbId: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """
+    Program filter to only return studies associated with given program id.
+    """
+    programDbId: String
+
+    """Filter by season or year"""
+    seasonDbId: String
+
+    """Name of the field to sort by."""
+    sortBy: SortBy2
+
+    """Sort order direction. Ascending/Descending."""
+    sortOrder: SortOrder2
+
+    """Filter by study code"""
+    studyCode: String
+
+    """Filter by study DbId"""
+    studyDbId: String
+
+    """Filter by study name"""
+    studyName: String
+
+    """Filter by study PUI"""
+    studyPUI: String
+
+    """Filter based on study type unique identifier"""
+    studyType: String
+
+    """Filter by trial"""
+    trialDbId: String
+  ): StudyListResponse
+
+  """
+  Retrieve a filtered list of breeding Trials. A Trial is a collection of Studies
+  
+  Equivalent to GET /trials
+  """
+  getTrials(
+    """Filter active status true/false."""
+    active: Boolean
+
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """Common name for the crop associated with this trial"""
+    commonCropName: String
+
+    """Contact entities associated with this trial"""
+    contactDbId: String
+
+    """
+    An external reference ID. Could be a simple string or a URI. (use with `externalReferenceSource` parameter)
+    """
+    externalReferenceID: String
+
+    """
+    An identifier for the source system or database of an external reference (use with `externalReferenceID` parameter)
+    """
+    externalReferenceSource: String
+
+    """Filter by location"""
+    locationDbId: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """Program filter to only return trials associated with given program id."""
+    programDbId: String
+
+    """
+    The start of the overlapping search date range. `searchDateRangeStart` must be before `searchDateRangeEnd`.
+    
+    Return a Trial entity if any of the following cases are true
+    
+    - `searchDateRangeStart` is before `trial.endDate` AND `searchDateRangeEnd` is null 
+    
+    - `searchDateRangeStart` is before `trial.endDate` AND `searchDateRangeEnd` is after `trial.startDate`
+    
+    - `searchDateRangeEnd` is after `trial.startDate` AND `searchDateRangeStart` is null
+    
+    - `searchDateRangeEnd` is after `trial.startDate` AND `searchDateRangeStart` is before `trial.endDate`
+    """
+    searchDateRangeEnd: String
+
+    """
+    The start of the overlapping search date range. `searchDateRangeStart` must be before `searchDateRangeEnd`.
+    
+    Return a Trial entity if any of the following cases are true
+    
+    - `searchDateRangeStart` is before `trial.endDate` AND `searchDateRangeEnd` is null 
+    
+    - `searchDateRangeStart` is before `trial.endDate` AND `searchDateRangeEnd` is after `trial.startDate`
+    
+    - `searchDateRangeEnd` is after `trial.startDate` AND `searchDateRangeStart` is null
+    
+    - `searchDateRangeEnd` is after `trial.startDate` AND `searchDateRangeStart` is before `trial.endDate`
+    """
+    searchDateRangeStart: String
+
+    """Sort order. Name of the field to sort by."""
+    sortBy: SortBy3
+
+    """Sort order direction: asc/desc"""
+    sortOrder: SortOrder2
+
+    """Filter by connected studyDbId"""
+    studyDbId: String
+
+    """Filter by trialDbId"""
+    trialDbId: String
+
+    """Filter by trial name"""
+    trialName: String
+
+    """Filter by trial PUI"""
+    trialPUI: String
+  ): TrialListResponse
+
+  """
+  Get filtered set of generic lists
+  
+  Equivalent to GET /lists
+  """
+  listsListResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    An external reference ID. Could be a simple string or a URI. (use with `externalReferenceSource` parameter)
+    """
+    externalReferenceID: String
+
+    """
+    An identifier for the source system or database of an external reference (use with `externalReferenceID` parameter)
+    """
+    externalReferenceSource: String
+
+    """The unique ID of this generic list"""
+    listDbId: String
+
+    """The human readable name of this generic list"""
+    listName: String
+
+    """The source tag of this generic list"""
+    listSource: String
+
+    """The type of objects contained by this generic list"""
+    listType: ListType
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+  ): ListsListResponse
+
+  """
+  Get a specific generic lists
+  
+  Equivalent to GET /lists/{listDbId}
+  """
+  listsSingleResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The unique ID of this generic list"""
+    listDbId: String!
+  ): ListsSingleResponse
+
+  """
+  Get a list of locations.
+  * The `countryCode` is as per [ISO_3166-1_alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) spec.
+  * `altitude` is in meters.
+  
+  Equivalent to GET /locations
+  """
+  locationListResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    An external reference ID. Could be a simple string or a URI. (use with `externalReferenceSource` parameter)
+    """
+    externalReferenceID: String
+
+    """
+    An identifier for the source system or database of an external reference (use with `externalReferenceID` parameter)
+    """
+    externalReferenceSource: String
+
+    """Filter by location DbId"""
+    locationDbId: String
+
+    """Filter by location type specified."""
+    locationType: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+  ): LocationListResponse
+
+  """
+  Get details for a location.
+  - The `countryCode` is as per [ISO_3166-1_alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) spec.
+  - `altitude` is in meters.'
+  
+  Equivalent to GET /locations/{locationDbId}
+  """
+  locationSingleResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The internal DB id for a location"""
+    locationDbId: String!
+  ): LocationSingleResponse
+
+  """
+  Get filtered list of people
+  
+  Equivalent to GET /people
+  """
+  personListResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    An external reference ID. Could be a simple string or a URI. (use with `externalReferenceSource` parameter)
+    """
+    externalReferenceID: String
+
+    """
+    An identifier for the source system or database of an external reference (use with `externalReferenceID` parameter)
+    """
+    externalReferenceSource: String
+
+    """A persons first name"""
+    firstName: String
+
+    """A persons last name"""
+    lastName: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """The unique ID of a person"""
+    personDbId: String
+
+    """
+    A systems user ID associated with this person. Different from personDbId because you could have a person who is not a user of the system.
+    """
+    userID: String
+  ): PersonListResponse
+
+  """
+  Get the details for a specific Person
+  
+  Equivalent to GET /people/{personDbId}
+  """
+  personSingleResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The unique ID of a person"""
+    personDbId: String!
+  ): PersonSingleResponse
+
+  """
+  Get a filtered list of breeding Programs. This list can be filtered by common crop name to narrow results to a specific crop.
+  
+  Equivalent to GET /programs
+  """
+  programListResponse(
+    """Filter by program abbreviation. Exact match."""
+    abbreviation: String
+
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """Filter by the common crop name. Exact match."""
+    commonCropName: String
+
+    """
+    An external reference ID. Could be a simple string or a URI. (use with `externalReferenceSource` parameter)
+    """
+    externalReferenceID: String
+
+    """
+    An identifier for the source system or database of an external reference (use with `externalReferenceID` parameter)
+    """
+    externalReferenceSource: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """Program filter to only return trials associated with given program id."""
+    programDbId: String
+
+    """Filter by program name. Exact match."""
+    programName: String
+  ): ProgramListResponse
+
+  """
+  Get a single breeding Program by Id. This can be used to quickly get the details of a Program when you have the Id from another entity.
+  
+  Equivalent to GET /programs/{programDbId}
+  """
+  programSingleResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """Filter by the common crop name. Exact match."""
+    programDbId: String!
+  ): ProgramSingleResponse
+
+  """
+  Call to retrieve all seasons in the database.
+  
+  A season is made of 2 parts; the primary year and a term which defines a segment of the year. 
+  This could be a traditional season, like "Spring" or "Summer" or this could be a month, like 
+  "May" or "June" or this could be an arbitrary season name which is meaningful to the breeding 
+  program like "PlantingTime_3" or "Season E"
+  
+  Equivalent to GET /seasons
+  """
+  seasonListResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """
+    The term to describe a given season. Example "Spring" OR "May" OR "Planting_Time_7".
+    """
+    season: String
+
+    """
+    The unique identifier for a season. For backward compatibility it can be a string like '2012', '1957-2004'
+    """
+    seasonDbId: String
+
+    """
+    The 4 digit year of a season. Example "2017"
+    """
+    year: Int
+  ): SeasonListResponse
+
+  """
+  Get the a single Season
+  
+  Equivalent to GET /seasons/{seasonDbId}
+  """
+  seasonSingleResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    The unique identifier for a season. For backward compatibility it can be a string like '2012', '1957-2004'
+    """
+    seasonDbId: String!
+  ): SeasonSingleResponse
+
+  """
+  Implementation Notes
+  
+  Having a consistent structure for the path string of each call is very 
+  important for teams to be able to connect and find errors. Read more on Github.
+  
+  Here are the rules for the path of each call that should be returned
+  
+  Every word in the call path should match the documentation exactly, both in 
+  spelling and capitalization. Note that path strings are all lower case, but 
+  path parameters are camel case.
+  
+  Each path should start relative to \"/\" and therefore should not include \"/\"
+  
+  No leading or trailing slashes (\"/\") 
+  
+  Path parameters are wrapped in curly braces (\"{}\"). The name of the path parameter 
+  should be spelled exactly as it is specified in the documentation.
+  
+  Examples 
+  
+  GOOD   "call": "germplasm/{germplasmDbId}/pedigree" 
+  
+  BAD    "call": "germplasm/{id}/pedigree"
+  
+  BAD    "call": "germplasm/{germplasmDBid}/pedigree" 
+  
+  BAD    "call": "brapi/v2/germplasm/{germplasmDbId}/pedigree" 
+  
+  BAD    "call": "/germplasm/{germplasmDbId}/pedigree/" 
+  
+  BAD    "call": "germplasm/<germplasmDbId>/pedigree"
+  
+  Equivalent to GET /serverinfo
+  """
+  serverInfoResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The data format supported by the call."""
+    dataType: DataType
+  ): ServerInfoResponse
+
+  """
+  Get list of studies
+  
+  StartDate and endDate should be ISO-8601 format for dates
+  
+  See Search Services for additional implementation details.
+  
+  Equivalent to GET /search/studies/{searchResultsDbId}
+  """
+  studyListResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """Unique identifier which references the search results"""
+    searchResultsDbId: String!
+  ): StudyListResponse
+
+  """
+  Retrieve the information of the study required for field data collection
+  
+  An additionalInfo field was added to provide a controlled vocabulary for less common data fields.
+  
+  Equivalent to GET /studies/{studyDbId}
+  """
+  studySingleResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """Identifier of the study. Usually a number, could be alphanumeric."""
+    studyDbId: String!
+  ): StudySingleResponse
+
+  """
+  Call to retrieve the list of study types.
+  
+  Equivalent to GET /studytypes
+  """
+  studyTypesResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+  ): StudyTypesResponse
+
+  """
+  Advanced searching for the trials resource.
+  See Search Services for additional implementation details.
+  
+  Equivalent to GET /search/trials/{searchResultsDbId}
+  """
+  trialListResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    Used to request a specific page of data to be returned.
+    
+    The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+    """
+    page: Int
+
+    """The size of the pages to be returned. Default is `1000`."""
+    pageSize: Int
+
+    """Unique identifier which references the search results"""
+    searchResultsDbId: String!
+  ): TrialListResponse
+
+  """
+  Get the details of a specific Trial
+  
+  Equivalent to GET /trials/{trialDbId}
+  """
+  trialSingleResponse(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The internal trialDbId"""
+    trialDbId: String!
+  ): TrialSingleResponse
+}
+
+type CommonCropNamesResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: CommonCropNamesResponseResult!
+}
+
+type Metadata {
+  """
+  The datafiles contains a list of file URLs and metadata. 
+  These files contain additional information related to the returned object and can be retrieved by a subsequent call. 
+  This could be a supplementary data file, an informational file, the uploaded file where the data originated from, a generated file representing the whole dataset in a particular format, or any other related file. 
+  """
+  datafiles: [DataFile]
+  pagination: IndexPagination
+
+  """
+  The status field contains a list of informational status messages from the server. 
+  If no status is reported, an empty list should be returned. See Error Reporting for more information.
+  """
+  status: [Status2]
+}
+
+"""
+A dataFile contains a URL and the relevant file metadata to represent a file
+"""
+type DataFile {
+  """A human readable description of the file contents"""
+  fileDescription: String
+
+  """The MD5 Hash of the file contents to be used as a check sum"""
+  fileMD5Hash: String
+
+  """The name of the file"""
+  fileName: String
+
+  """The size of the file in bytes"""
+  fileSize: Int
+
+  """The type or format of the file. Preferably MIME Type."""
+  fileType: String
+
+  """The absolute URL where the file is located"""
+  fileURL: String!
+}
+
+type IndexPagination {
+  """
+  The index number for the returned page of data. This should always match the requested page number or the default page (0).
+  """
+  currentPage: Int!
+
+  """
+  The number of data elements returned, aka the size of the current page. If the requested page does not have enough elements to fill a page at the requested page size, this field should indicate the actual number of elements returned.
+  """
+  pageSize: Int!
+
+  """
+  The total number of elements that are available on the server and match the requested query parameters.
+  """
+  totalCount: Int
+
+  """
+  The total number of pages of elements available on the server. This should be calculated with the following formula. 
+  
+  totalPages = CEILING( totalCount / requested_page_size)
+  """
+  totalPages: Int
+}
+
+"""
+An array of status messages to convey technical logging information from the server to the client.
+"""
+type Status2 {
+  """A short message concerning the status of this request/response"""
+  message: String!
+
+  """The logging level for the attached message"""
+  messageType: MessageType!
+}
+
+enum MessageType {
+  DEBUG
+  ERROR
+  WARNING
+  INFO
+}
+
+type CommonCropNamesResponseResult {
+  """array of crop names available on the server"""
+  data: [String]!
+}
+
+type ListsListResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: ListsListResponseResult!
+}
+
+type ListsListResponseResult {
+  data: [ListSummary]!
+}
+
+type ListSummary {
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """Timestamp when the entity was first created"""
+  dateCreated: String
+
+  """Timestamp when the entity was last updated"""
+  dateModified: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInner]
+
+  """The unique identifier for a List"""
+  listDbId: String!
+
+  """Description of a List"""
+  listDescription: String
+
+  """Human readable name of a List"""
+  listName: String
+
+  """Human readable name of a List Owner. (usually a user or person)"""
+  listOwnerName: String
+
+  """The unique identifier for a List Owner. (usually a user or person)"""
+  listOwnerPersonDbId: String
+
+  """The number of elements in a List"""
+  listSize: Int
+
+  """The description of where a List originated from"""
+  listSource: String
+  listType: ListTypes!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type ExternalReferencesInner {
+  """The external reference ID. Could be a simple string or a URI."""
+  referenceID: String
+
+  """An identifier for the source system or database of this reference"""
+  referenceSource: String
+}
+
+enum ListTypes {
+  GERMPLASM
+  MARKERS
+  PROGRAMS
+  TRIALS
+  STUDIES
+  OBSERVATIONUNITS
+  OBSERVATIONS
+  OBSERVATIONVARIABLES
+  SAMPLES
+}
+
+type LocationListResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: LocationListResponseResult!
+}
+
+type LocationListResponseResult {
+  data: [Location]!
+}
+
+type Location {
+  """An abbreviation which represents this location"""
+  abbreviation: String
+
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """
+  Describes the precision and landmarks of the coordinate values used for this location. (ex. the site, the nearest town, a 10 kilometers radius circle, +/- 20 meters, etc)
+  """
+  coordinateDescription: String
+
+  """
+  Uncertainty associated with the coordinates in meters. Leave the value empty if the uncertainty is unknown.
+  """
+  coordinateUncertainty: String
+
+  """
+  One geometry as defined by GeoJSON (RFC 7946). All coordinates are decimal values on the WGS84 geographic coordinate reference system.
+  
+  Copied from RFC 7946 Section 3.1.1
+  
+  A position is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or
+  easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element.
+  """
+  coordinates: GeoJSON
+
+  """
+   [ISO_3166-1_alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) spec
+  MIAPPE V1.1 (DM-17) Geographic location (country) - The country where the experiment took place, either as a full name or preferably as a 2-letter code.
+  """
+  countryCode: String
+
+  """
+  The full name of the country where this location is
+  
+  MIAPPE V1.1 (DM-17) Geographic location (country) - The country where the experiment took place, either as a full name or preferably as a 2-letter code.
+  """
+  countryName: String
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """
+  Describes the general type of environment of the location. (ex. forest, field, nursery, etc)
+  """
+  environmentType: String
+
+  """
+  Describes the level of protection/exposure for things like sun light and wind.
+  """
+  exposure: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInner]
+
+  """
+  The street address of the institute representing this location
+  
+  MIAPPE V1.1 (DM-16) Contact institution - Name and address of the institution responsible for the study.
+  """
+  instituteAddress: String
+
+  """
+  Each institute/laboratory can have several experimental field
+  
+  MIAPPE V1.1 (DM-16) Contact institution - Name and address of the institution responsible for the study.
+  """
+  instituteName: String
+
+  """The unique identifier for a Location"""
+  locationDbId: String
+
+  """
+  A human readable name for this location
+  
+  MIAPPE V1.1 (DM-18) Experimental site name - The name of the natural site, experimental field, greenhouse, phenotyping facility, etc. where the experiment took place.
+  """
+  locationName: String
+
+  """
+  The type of location this represents (ex. Breeding Location, Storage Location, etc)
+  """
+  locationType: String
+
+  """Description of the accessibility of the location (ex. Public, Private)"""
+  siteStatus: String
+
+  """Describes the approximate slope (height/distance) of the location."""
+  slope: String
+
+  """
+  Describes the topography of the land at the location. (ex. Plateau, Cirque, Hill, Valley, etc)
+  """
+  topography: String
+}
+
+"""
+One geometry as defined by GeoJSON (RFC 7946). All coordinates are decimal values on the WGS84 geographic coordinate reference system.
+
+Copied from RFC 7946 Section 3.1.1
+
+A position is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or
+easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element.
+"""
+type GeoJSON {
+  """
+  A geometry as defined by GeoJSON (RFC 7946). In this context, only Point or Polygon geometry are allowed.
+  """
+  geometry: Geometry
+
+  """
+  The literal string "Feature"
+  """
+  type: String
+}
+
+"""
+A geometry as defined by GeoJSON (RFC 7946). In this context, only Point or Polygon geometry are allowed.
+"""
+union Geometry = PointGeometry | PolygonGeometry
+
+"""
+Copied from RFC 7946 Section 3.1.1
+
+A position is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or
+easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element.
+"""
+type PointGeometry {
+  """A single position"""
+  coordinates: [Float]
+
+  """
+  The literal string "Point"
+  """
+  type: String
+}
+
+"""
+An array of Linear Rings. Each Linear Ring is an array of Points. 
+
+A Point is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or
+easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element.
+"""
+type PolygonGeometry {
+  """An array of linear rings"""
+  coordinates: [[[Float]]]
+
+  """
+  The literal string "Polygon"
+  """
+  type: String
+}
+
+type PersonListResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: PersonListResponseResult!
+}
+
+type PersonListResponseResult {
+  """Array of people"""
+  data: [Person]!
+}
+
+type Person {
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """description of this person"""
+  description: String
+
+  """email address for this person"""
+  emailAddress: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInner]
+
+  """Persons first name"""
+  firstName: String
+
+  """Persons last name"""
+  lastName: String
+
+  """physical address of this person"""
+  mailingAddress: String
+
+  """Persons middle name"""
+  middleName: String
+
+  """Unique ID for a person"""
+  personDbId: String!
+
+  """phone number of this person"""
+  phoneNumber: String
+
+  """
+  A systems user ID associated with this person. Different from personDbId because you could have a person who is not a user of the system.
+  """
+  userID: String
+}
+
+type ProgramListResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: ProgramListResponseResult!
+}
+
+type ProgramListResponseResult {
+  data: [Program]!
+}
+
+type Program {
+  """An abbreviation which represents this program"""
+  abbreviation: String
+
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """Common name for the crop which this program is for"""
+  commonCropName: String
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInner]
+
+  """The unique identifier of the program leader"""
+  leadPersonDbId: String
+
+  """The name of the program leader"""
+  leadPersonName: String
+
+  """The primary objective of the program"""
+  objective: String
+
+  """The ID which uniquely identifies the program"""
+  programDbId: String!
+
+  """Human readable name of the program"""
+  programName: String
+}
+
+type StudyListResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: StudyListResponseResult!
+}
+
+type StudyListResponseResult {
+  data: [Study]!
+}
+
+type Study {
+  """Is this study currently active"""
+  active: Boolean
+
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """Common name for the crop associated with this study"""
+  commonCropName: String
+
+  """List of contact entities associated with this study"""
+  contacts: [Contact]
+
+  """
+  MIAPPE V1.1 (DM-28) Cultural practices - General description of the cultural practices of the study.
+  """
+  culturalPractices: String
+
+  """
+  List of links to extra data files associated with this study. Extra data could include notes, images, and reference data.
+  """
+  dataLinks: [DataLink]
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """
+  The date the study ends
+  
+  MIAPPE V1.1 (DM-15) End date of study - Date and, if relevant, time when the experiment ended
+  """
+  endDate: String
+
+  """
+  Environmental parameters that were kept constant throughout the study and did not change between observation units.
+  
+  MIAPPE V1.1 (DM-57) Environment - Environmental parameters that were kept constant throughout the study and did not change between observation units or assays. Environment characteristics that vary over time, i.e. environmental variables, should be recorded as Observed Variables (see below).
+  """
+  environmentParameters: [EnvironmentParameter]
+
+  """
+  The experimental and statistical design full description plus a category PUI taken from crop research ontology or agronomy ontology
+  """
+  experimentalDesign: StudyNewRequestExperimentalDesign
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInner]
+
+  """Short description of the facility in which the study was carried out."""
+  growthFacility: StudyNewRequestGrowthFacility
+
+  """The date and time when this study was last modified"""
+  lastUpdate: StudyNewRequestLastUpdate
+
+  """The usage license associated with the study data"""
+  license: String
+
+  """The unique identifier for a Location"""
+  locationDbId: String
+
+  """
+  A human readable name for this location
+  
+  MIAPPE V1.1 (DM-18) Experimental site name - The name of the natural site, experimental field, greenhouse, phenotyping facility, etc. where the experiment took place.
+  """
+  locationName: String
+
+  """
+  Observation levels indicate the granularity level at which the measurements are taken. `levelName` defines the level, `levelOrder` defines where that level exists in the hierarchy of levels. `levelOrder`s lower numbers are at the top of the hierarchy (ie field > 0) and higher numbers are at the bottom of the hierarchy (ie plant > 6). 
+  """
+  observationLevels: [ObservationUnitHierarchyLevel]
+
+  """
+  MIAPPE V1.1 (DM-25) Observation unit description - General description of the observation units in the study.
+  """
+  observationUnitsDescription: String
+
+  """List of seasons over which this study was performed."""
+  seasons: [String]
+
+  """
+  The date this study started
+  
+  MIAPPE V1.1 (DM-14) Start date of study - Date and, if relevant, time when the experiment started
+  """
+  startDate: String
+
+  """A short human readable code for a study"""
+  studyCode: String
+
+  """
+  The ID which uniquely identifies a study within the given database server
+  
+  MIAPPE V1.1 (DM-11) Study unique ID - Unique identifier comprising the name or identifier for the institution/database hosting the submission of the study data, and the identifier of the study in that institution.
+  """
+  studyDbId: String!
+
+  """
+  The description of this study
+  
+  MIAPPE V1.1 (DM-13) Study description - Human-readable text describing the study
+  """
+  studyDescription: String
+
+  """
+  The human readable name for a study
+  
+  MIAPPE V1.1 (DM-12) Study title - Human-readable text summarising the study
+  """
+  studyName: String
+
+  """
+  A permanent unique identifier associated with this study data. For example, a URI or DOI
+  """
+  studyPUI: String
+
+  """The type of study being performed. ex. "Yield Trial", etc"""
+  studyType: String
+
+  """The ID which uniquely identifies a trial"""
+  trialDbId: String
+
+  """The human readable name of a trial"""
+  trialName: String
+}
+
+type Contact {
+  """
+  The ID which uniquely identifies this contact
+  
+  MIAPPE V1.1 (DM-33) Person ID - An identifier for the data submitter. If that submitter is an individual, ORCID identifiers are recommended.
+  """
+  contactDbId: String!
+
+  """
+  The contacts email address
+  
+  MIAPPE V1.1 (DM-32) Person email - The electronic mail address of the person.
+  """
+  email: String
+
+  """
+  The name of the institution which this contact is part of
+  
+  MIAPPE V1.1 (DM-35) Person affiliation - The institution the person belongs to
+  """
+  instituteName: String
+
+  """
+  The full name of this contact person
+  
+  MIAPPE V1.1 (DM-31) Person name - The name of the person (either full name or as used in scientific publications)
+  """
+  name: String
+
+  """
+  The Open Researcher and Contributor ID for this contact person (orcid.org)
+  
+  MIAPPE V1.1 (DM-33) Person ID - An identifier for the data submitter. If that submitter is an individual, ORCID identifiers are recommended.
+  """
+  orcid: String
+
+  """
+  The type of person this contact represents (ex: Coordinator, Scientist, PI, etc.)
+  
+  MIAPPE V1.1 (DM-34) Person role - Type of contribution of the person to the investigation
+  """
+  type: String
+}
+
+type DataLink {
+  """
+  The structure of the data within a file. For example - VCF, table, image archive, multispectral image archives in EDAM ontology (used in Galaxy)
+  
+  MIAPPE V1.1 (DM-38) Data file description - Description of the format of the data file. May be a standard file format name, or a description of organization of the data in a tabular file.
+  """
+  dataFormat: String
+
+  """
+  The general description of this data link
+  
+  MIAPPE V1.1 (DM-38) Data file description - Description of the format of the data file. May be a standard file format name, or a description of organization of the data in a tabular file.
+  """
+  description: String
+
+  """
+  The MIME type of the file (ie text/csv, application/excel, application/zip).
+  
+  MIAPPE V1.1 (DM-38) Data file description - Description of the format of the data file. May be a standard file format name, or a description of organization of the data in a tabular file.
+  """
+  fileFormat: String
+
+  """
+  The name of the external data link
+  
+  MIAPPE V1.1 (DM-38) Data file description - Description of the format of the data file. May be a standard file format name, or a description of organization of the data in a tabular file.
+  """
+  name: String
+
+  """
+  The description of the origin or ownership of this linked data. Could be a formal reference to software, method, or workflow.
+  """
+  provenance: String
+
+  """
+  The general type of data. For example- Genotyping, Phenotyping raw data, Phenotyping reduced data, Environmental, etc
+  """
+  scientificType: String
+
+  """
+  URL describing the location of this data file to view or download
+  
+  MIAPPE V1.1 (DM-37) Data file link - Link to the data file (or digital object) in a public database or in a persistent institutional repository; or identifier of the data file when submitted together with the MIAPPE submission.
+  """
+  url: String
+
+  """
+  The version number for this data 
+  
+  MIAPPE V1.1 (DM-39) Data file version - The version of the dataset (the actual data).
+  """
+  version: String
+}
+
+type EnvironmentParameter {
+  """
+  Human-readable value of the environment parameter (defined above) constant within the experiment
+  """
+  description: String!
+
+  """
+  Name of the environment parameter constant within the experiment
+  
+  MIAPPE V1.1 (DM-58) Environment parameter - Name of the environment parameter constant within the experiment. 
+  """
+  parameterName: String!
+
+  """URI pointing to an ontology class for the parameter"""
+  parameterPUI: String
+
+  """Unit of the value for this parameter"""
+  unit: String
+
+  """URI pointing to an ontology class for the unit"""
+  unitPUI: String
+
+  """
+  Numerical or categorical value
+  
+  MIAPPE V1.1 (DM-59) Environment parameter value - Value of the environment parameter (defined above) constant within the experiment.
+  """
+  value: String
+
+  """URI pointing to an ontology class for the parameter value"""
+  valuePUI: String
+}
+
+"""
+The experimental and statistical design full description plus a category PUI taken from crop research ontology or agronomy ontology
+"""
+type StudyNewRequestExperimentalDesign {
+  """
+  MIAPPE V1.1 (DM-22) Description of the experimental design - Short description of the experimental design, possibly including statistical design. In specific cases, e.g. legacy datasets or data computed from several studies, the experimental design can be "unknown"/"NA", "aggregated/reduced data", or simply 'none'.
+  """
+  description: String
+
+  """
+  MIAPPE V1.1 (DM-23) Type of experimental design - Type of experimental  design of the study, in the form of an accession number from the Crop Ontology.
+  """
+  pUI: String
+}
+
+"""Short description of the facility in which the study was carried out."""
+type StudyNewRequestGrowthFacility {
+  """
+  MIAPPE V1.1 (DM-26) Description of growth facility - Short description of the facility in which the study was carried out.
+  """
+  description: String
+
+  """
+  MIAPPE V1.1 (DM-27) Type of growth facility - Type of growth facility in which the study was carried out, in the form of an accession number from the Crop Ontology.
+  """
+  pUI: String
+}
+
+"""The date and time when this study was last modified"""
+type StudyNewRequestLastUpdate {
+  timestamp: String
+  version: String
+}
+
+"""
+Observation levels indicate the granularity level at which the measurements are taken. `levelName` defines the level, `levelOrder` defines where that level exists in the hierarchy of levels. `levelOrder`s lower numbers are at the top of the hierarchy (ie field > 0) and higher numbers are at the bottom of the hierarchy (ie plant > 6). 
+"""
+type ObservationUnitHierarchyLevel {
+  """A name for this level"""
+  levelName: LevelName
+
+  """
+  `levelOrder` defines where that level exists in the hierarchy of levels. `levelOrder`'s lower numbers are at the top of the hierarchy (ie field -> 1) and higher numbers are at the bottom of the hierarchy (ie plant -> 9).
+  """
+  levelOrder: Int
+}
+
+enum LevelName {
+  STUDY
+  FIELD
+  ENTRY
+  REP
+  BLOCK
+  SUB_BLOCK
+  PLOT
+  SUB_PLOT
+  PLANT
+  POT
+  SAMPLE
+}
+
+enum SortBy2 {
+  STUDYDBID
+  TRIALDBID
+  PROGRAMDBID
+  LOCATIONDBID
+  SEASONDBID
+  STUDYTYPE
+  STUDYNAME
+  STUDYLOCATION
+  PROGRAMNAME
+}
+
+enum SortOrder2 {
+  ASC
+  DESC
+}
+
+type TrialListResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: TrialListResponseResult!
+}
+
+type TrialListResponseResult {
+  data: [Trial]!
+}
+
+type Trial {
+  """Is this trail currently active"""
+  active: Boolean
+
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """Common name for the crop associated with this trial"""
+  commonCropName: String
+
+  """List of contact entities associated with this trial"""
+  contacts: [Contact]
+
+  """License and citation information for the data in this trial"""
+  datasetAuthorships: [TrialNewRequestDatasetAuthorships]
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """The date this trial ends"""
+  endDate: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInner]
+
+  """A program identifier to search for"""
+  programDbId: String
+
+  """Human readable name of the program"""
+  programName: String
+
+  """
+  MIAPPE V1.1 (DM-9) Associated publication - An identifier for a literature publication where the investigation is described. Use of DOIs is recommended.
+  """
+  publications: [TrialNewRequestPublications]
+
+  """The date this trial started"""
+  startDate: String
+
+  """
+  The ID which uniquely identifies a trial
+  
+  MIAPPE V1.1 (DM-2) Investigation unique ID - Identifier comprising the unique name of the institution/database hosting the submission of the investigation data, and the accession number of the investigation in that institution.
+  """
+  trialDbId: String!
+
+  """
+  The human readable description of a trial
+  
+  MIAPPE V1.1 (DM-4) Investigation description - Human-readable text describing the investigation in more detail.
+  """
+  trialDescription: String
+
+  """
+  The human readable name of a trial
+  
+  MIAPPE V1.1 (DM-3) Investigation title - Human-readable string summarising the investigation.
+  """
+  trialName: String
+
+  """
+  A permanent identifier for a trial. Could be DOI or other URI formatted identifier.
+  """
+  trialPUI: String
+}
+
+type TrialNewRequestDatasetAuthorships {
+  datasetPUI: String
+
+  """
+  MIAPPE V1.1 (DM-7) License - License for the reuse of the data associated with this investigation. The Creative Commons licenses cover most use cases and are recommended.
+  """
+  license: String
+
+  """
+  MIAPPE V1.1 (DM-6) Public release date - Date of first public release of the dataset presently being described.
+  """
+  publicReleaseDate: String
+
+  """
+  MIAPPE V1.1 (DM-5) Submission date - Date of submission of the dataset presently being described to a host repository.
+  """
+  submissionDate: String
+}
+
+type TrialNewRequestPublications {
+  publicationPUI: String
+  publicationReference: String
+}
+
+enum SortBy3 {
+  TRIALDBID
+  TRIALNAME
+  PROGRAMDBID
+  PROGRAMNAME
+  LOCATIONDBID
+  STARTDATE
+  ENDDATE
+}
+
+enum ListType {
+  GERMPLASM
+  MARKERS
+  PROGRAMS
+  TRIALS
+  STUDIES
+  OBSERVATIONUNITS
+  OBSERVATIONS
+  OBSERVATIONVARIABLES
+  SAMPLES
+}
+
+type ListsSingleResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: ListDetails!
+}
+
+type ListDetails {
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """The list of DbIds contained in this list"""
+  data: [String]
+
+  """Timestamp when the entity was first created"""
+  dateCreated: String
+
+  """Timestamp when the entity was last updated"""
+  dateModified: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInner]
+
+  """The unique identifier for a List"""
+  listDbId: String!
+
+  """Description of a List"""
+  listDescription: String
+
+  """Human readable name of a List"""
+  listName: String
+
+  """Human readable name of a List Owner. (usually a user or person)"""
+  listOwnerName: String
+
+  """The unique identifier for a List Owner. (usually a user or person)"""
+  listOwnerPersonDbId: String
+
+  """The number of elements in a List"""
+  listSize: Int
+
+  """The description of where a List originated from"""
+  listSource: String
+  listType: ListTypes!
+}
+
+type LocationSingleResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: Location!
+}
+
+type PersonSingleResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: Person!
+}
+
+type ProgramSingleResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: Program!
+}
+
+type SeasonListResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: SeasonListResponseResult!
+}
+
+type SeasonListResponseResult {
+  data: [Season]!
+}
+
+type Season {
+  """
+  The ID which uniquely identifies a season. For backward compatibility it can be a string like '2012', '1957-2004'
+  """
+  seasonDbId: String!
+
+  """Name of the season. ex. 'Spring', 'Q2', 'Season A', etc."""
+  seasonName: String
+
+  """The 4 digit year of the season."""
+  year: Int
+}
+
+type SeasonSingleResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: Season!
+}
+
+type ServerInfoResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: ServerInfo!
+}
+
+type ServerInfo {
+  """Array of available calls on this server"""
+  calls: [Service]!
+
+  """A contact email address for this server management"""
+  contactEmail: String
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """Physical location of this server (ie. City, Country)"""
+  location: String
+
+  """The name of the organization that manages this server and data"""
+  organizationName: String
+
+  """The URL of the organization that manages this server and data"""
+  organizationURL: String
+
+  """A description of this server"""
+  serverDescription: String
+
+  """The name of this server"""
+  serverName: String
+}
+
+type Service {
+  """The possible data formats returned by the available call"""
+  dataTypes: [WSMIMEDataTypes]
+
+  """The possible HTTP Methods to be used with the available call"""
+  methods: [MethodsListItem]!
+
+  """The name of the available call as recorded in the documentation"""
+  service: String!
+
+  """The supported versions of a particular call"""
+  versions: [VersionsListItem]!
+}
+
+enum WSMIMEDataTypes {
+  APPLICATION_JSON
+  TEXT_CSV
+  TEXT_TSV
+  APPLICATION_FLAPJACK
+}
+
+enum MethodsListItem {
+  GET
+  POST
+  PUT
+  DELETE
+}
+
+enum VersionsListItem {
+  _2_0
+  _2_1
+  _2_2
+}
+
+enum DataType {
+  APPLICATION_JSON
+  TEXT_CSV
+  TEXT_TSV
+  APPLICATION_FLAPJACK
+}
+
+type StudySingleResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: Study!
+}
+
+type StudyTypesResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: StudyTypesResponseResult!
+}
+
+type StudyTypesResponseResult {
+  """the list of all study types available in this server."""
+  data: [String]!
+}
+
+type TrialSingleResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: Trial!
+}
+
+type Mutation {
+  """
+  A viewer that wraps operations for all available authentication mechanisms
+  """
+  mutationViewerAnyAuth(authorizationToken: JSON): MutationViewerAnyAuth
+}
+
+"""Warning: Not every request will work with this viewer type"""
+type MutationViewerAnyAuth {
+  """
+  Create new list objects in the database
+  
+  Equivalent to POST /lists
+  """
+  postLists(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    listsInput: [ListNewRequestInput]
+  ): ListsListResponse
+
+  """
+  Add new data to a specific generic lists
+  
+  Equivalent to POST /lists/{listDbId}/items
+  """
+  postListsListDbIdItems(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The unique ID of this generic list"""
+    listDbId: String!
+    listItemsInput: [String]
+  ): ListResponse
+
+  """
+  Add new locations to database
+  * The `countryCode` is as per [ISO_3166-1_alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) spec.
+  * `altitude` is in meters.
+  
+  Equivalent to POST /locations
+  """
+  postLocations(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    locationsInput: [LocationNewRequestInput]
+  ): LocationListResponse
+
+  """
+  Create new People entities. `personDbId` is generated and managed by the server.
+  
+  Equivalent to POST /people
+  """
+  postPeople(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    peopleInput: [PersonNewRequestInput]
+  ): PersonListResponse
+
+  """
+  Add new breeding Programs to the database. The `programDbId` is set by the server, all other fields are take from the request body, or a default value is used.
+  
+  Equivalent to POST /programs
+  """
+  postPrograms(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    programsInput: [ProgramNewRequestInput]
+  ): ProgramListResponse
+
+  """
+  Advanced searching for the list resource.
+  See Search Services for additional implementation details.
+  
+  Equivalent to POST /search/lists
+  """
+  postSearchLists(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    listSearchRequestInput: ListSearchRequestInput
+  ): ListsListResponse
+
+  """
+  Advanced searching for the locations resource.
+  See Search Services for additional implementation details.
+  
+  Equivalent to POST /search/locations
+  """
+  postSearchLocations(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    locationSearchRequestInput: LocationSearchRequestInput
+  ): LocationListResponse
+
+  """
+  Advanced searching for the programs resource.
+  
+  See Search Services for additional implementation details.
+  
+  Equivalent to POST /search/people
+  """
+  postSearchPeople(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    personSearchRequestInput: PersonSearchRequestInput
+  ): PersonListResponse
+
+  """
+  Advanced searching for the programs resource.
+  See Search Services for additional implementation details.
+  
+  Equivalent to POST /search/programs
+  """
+  postSearchPrograms(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    programSearchRequestInput: ProgramSearchRequestInput
+  ): ProgramListResponse
+
+  """
+  Get list of studies
+  StartDate and endDate should be ISO-8601 format for dates
+  See Search Services for additional implementation details.
+  
+  Equivalent to POST /search/studies
+  """
+  postSearchStudies(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    studySearchRequestInput: StudySearchRequestInput
+  ): StudyListResponse
+
+  """
+  Advanced searching for the programs resource.
+  See Search Services for additional implementation details.
+  
+  Equivalent to POST /search/trials
+  """
+  postSearchTrials(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    trialSearchRequestInput: TrialSearchRequestInput
+  ): TrialListResponse
+
+  """
+  Add new season entries to the database
+  
+  Equivalent to POST /seasons
+  """
+  postSeasons(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    seasons2Input: [SeasonInput]
+  ): SeasonListResponse
+
+  """
+  Create new studies
+  
+  Implementation Notes
+  
+  StartDate and endDate should be ISO-8601 format for dates
+  
+  `studDbId` is generated by the server.
+  
+  Equivalent to POST /studies
+  """
+  postStudies(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    studiesInput: [StudyNewRequestInput]
+  ): StudyListResponse
+
+  """
+  Create new breeding Trials. A Trial represents a collection of related Studies. `trialDbId` is generated by the server.
+  
+  Equivalent to POST /trials
+  """
+  postTrials(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+    trialsInput: [TrialNewRequestInput]
+  ): TrialListResponse
+
+  """
+  Update an existing generic list
+  
+  Equivalent to PUT /lists/{listDbId}
+  """
+  putListsListDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The unique ID of this generic list"""
+    listDbId: String!
+    listNewRequestInput: ListNewRequestInput
+  ): ListsSingleResponse
+
+  """
+  Update the details for an existing location.
+  - The `countryCode` is as per [ISO_3166-1_alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) spec.
+  - `altitude` is in meters.'
+  
+  Equivalent to PUT /locations/{locationDbId}
+  """
+  putLocationsLocationDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The internal DB id for a location"""
+    locationDbId: String!
+    locationNewRequestInput: LocationNewRequestInput
+  ): LocationSingleResponse
+
+  """
+  Update an existing Person
+  
+  Equivalent to PUT /people/{personDbId}
+  """
+  putPeoplePersonDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The unique ID of a person"""
+    personDbId: String!
+    personNewRequestInput: PersonNewRequestInput
+  ): PersonSingleResponse
+
+  """
+  Update the details of an existing breeding Program.
+  
+  Equivalent to PUT /programs/{programDbId}
+  """
+  putProgramsProgramDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """Filter by the common crop name. Exact match."""
+    programDbId: String!
+    programNewRequestInput: ProgramNewRequestInput
+  ): ProgramSingleResponse
+
+  """
+  Update existing Seasons
+  
+  Equivalent to PUT /seasons/{seasonDbId}
+  """
+  putSeasonsSeasonDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """
+    The unique identifier for a season. For backward compatibility it can be a string like '2012', '1957-2004'
+    """
+    seasonDbId: String!
+    seasonInput: SeasonInput
+  ): SeasonSingleResponse
+
+  """
+  Update an existing Study with new data
+  
+  Equivalent to PUT /studies/{studyDbId}
+  """
+  putStudiesStudyDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """Identifier of the study. Usually a number, could be alphanumeric."""
+    studyDbId: String!
+    studyNewRequestInput: StudyNewRequestInput
+  ): StudySingleResponse
+
+  """
+  Update the details of an existing Trial
+  
+  Equivalent to PUT /trials/{trialDbId}
+  """
+  putTrialsTrialDbId(
+    """
+    HTTP HEADER - Token used for Authorization 
+    
+    <strong> Bearer {token_string} </strong>
+    """
+    authorization: String
+
+    """The internal trialDbId"""
+    trialDbId: String!
+    trialNewRequestInput: TrialNewRequestInput
+  ): TrialSingleResponse
+}
+
+input ListNewRequestInput {
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """The list of DbIds contained in this list"""
+  data: [String]
+
+  """Timestamp when the entity was first created"""
+  dateCreated: String
+
+  """Timestamp when the entity was last updated"""
+  dateModified: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInnerInput]
+
+  """Description of a List"""
+  listDescription: String
+
+  """Human readable name of a List"""
+  listName: String
+
+  """Human readable name of a List Owner. (usually a user or person)"""
+  listOwnerName: String
+
+  """The unique identifier for a List Owner. (usually a user or person)"""
+  listOwnerPersonDbId: String
+
+  """The number of elements in a List"""
+  listSize: Int
+
+  """The description of where a List originated from"""
+  listSource: String
+  listType: ListTypes!
+}
+
+input ExternalReferencesInnerInput {
+  """The external reference ID. Could be a simple string or a URI."""
+  referenceID: String
+
+  """An identifier for the source system or database of this reference"""
+  referenceSource: String
+}
+
+type ListResponse {
+  """
+  The JSON-LD Context is used to provide JSON-LD definitions to each field in a JSON object. By providing an array of context file urls, a BrAPI response object becomes JSON-LD compatible.  
+  
+  For more information, see https://w3c.github.io/json-ld-syntax/#the-context
+  """
+  context: [String]
+  metadata: Metadata!
+  result: ListDetails!
+}
+
+input LocationNewRequestInput {
+  """An abbreviation which represents this location"""
+  abbreviation: String
+
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """
+  Describes the precision and landmarks of the coordinate values used for this location. (ex. the site, the nearest town, a 10 kilometers radius circle, +/- 20 meters, etc)
+  """
+  coordinateDescription: String
+
+  """
+  Uncertainty associated with the coordinates in meters. Leave the value empty if the uncertainty is unknown.
+  """
+  coordinateUncertainty: String
+
+  """
+  One geometry as defined by GeoJSON (RFC 7946). All coordinates are decimal values on the WGS84 geographic coordinate reference system.
+  
+  Copied from RFC 7946 Section 3.1.1
+  
+  A position is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or
+  easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element.
+  """
+  coordinates: GeoJSONInput
+
+  """
+   [ISO_3166-1_alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) spec
+  MIAPPE V1.1 (DM-17) Geographic location (country) - The country where the experiment took place, either as a full name or preferably as a 2-letter code.
+  """
+  countryCode: String
+
+  """
+  The full name of the country where this location is
+  
+  MIAPPE V1.1 (DM-17) Geographic location (country) - The country where the experiment took place, either as a full name or preferably as a 2-letter code.
+  """
+  countryName: String
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """
+  Describes the general type of environment of the location. (ex. forest, field, nursery, etc)
+  """
+  environmentType: String
+
+  """
+  Describes the level of protection/exposure for things like sun light and wind.
+  """
+  exposure: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInnerInput]
+
+  """
+  The street address of the institute representing this location
+  
+  MIAPPE V1.1 (DM-16) Contact institution - Name and address of the institution responsible for the study.
+  """
+  instituteAddress: String
+
+  """
+  Each institute/laboratory can have several experimental field
+  
+  MIAPPE V1.1 (DM-16) Contact institution - Name and address of the institution responsible for the study.
+  """
+  instituteName: String
+
+  """
+  A human readable name for this location
+  
+  MIAPPE V1.1 (DM-18) Experimental site name - The name of the natural site, experimental field, greenhouse, phenotyping facility, etc. where the experiment took place.
+  """
+  locationName: String
+
+  """
+  The type of location this represents (ex. Breeding Location, Storage Location, etc)
+  """
+  locationType: String
+
+  """Description of the accessibility of the location (ex. Public, Private)"""
+  siteStatus: String
+
+  """Describes the approximate slope (height/distance) of the location."""
+  slope: String
+
+  """
+  Describes the topography of the land at the location. (ex. Plateau, Cirque, Hill, Valley, etc)
+  """
+  topography: String
+}
+
+"""
+One geometry as defined by GeoJSON (RFC 7946). All coordinates are decimal values on the WGS84 geographic coordinate reference system.
+
+Copied from RFC 7946 Section 3.1.1
+
+A position is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or
+easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element.
+"""
+input GeoJSONInput {
+  """
+  A geometry as defined by GeoJSON (RFC 7946). In this context, only Point or Polygon geometry are allowed.
+  """
+  geometry: Geometry
+
+  """
+  The literal string "Feature"
+  """
+  type: String
+}
+
+input PersonNewRequestInput {
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """description of this person"""
+  description: String
+
+  """email address for this person"""
+  emailAddress: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInnerInput]
+
+  """Persons first name"""
+  firstName: String
+
+  """Persons last name"""
+  lastName: String
+
+  """physical address of this person"""
+  mailingAddress: String
+
+  """Persons middle name"""
+  middleName: String
+
+  """phone number of this person"""
+  phoneNumber: String
+
+  """
+  A systems user ID associated with this person. Different from personDbId because you could have a person who is not a user of the system.
+  """
+  userID: String
+}
+
+input ProgramNewRequestInput {
+  """An abbreviation which represents this program"""
+  abbreviation: String
+
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """Common name for the crop which this program is for"""
+  commonCropName: String
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInnerInput]
+
+  """The unique identifier of the program leader"""
+  leadPersonDbId: String
+
+  """The name of the program leader"""
+  leadPersonName: String
+
+  """The primary objective of the program"""
+  objective: String
+
+  """Human readable name of the program"""
+  programName: String
+}
+
+input ListSearchRequestInput {
+  dateCreatedRangeEnd: String
+  dateCreatedRangeStart: String
+  dateModifiedRangeEnd: String
+  dateModifiedRangeStart: String
+
+  """
+  List of external reference IDs. Could be a simple strings or a URIs. (use with `externalReferenceSources` parameter)
+  """
+  externalReferenceIDs: [String]
+
+  """
+  List of identifiers for the source system or database of an external reference (use with `externalReferenceIDs` parameter)
+  """
+  externalReferenceSources: [String]
+  listDbIds: [String]
+  listNames: [String]
+  listOwnerNames: [String]
+  listOwnerPersonDbIds: [String]
+  listSources: [String]
+  listType: ListTypes
+
+  """
+  Which result page is requested. The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+  """
+  page: Int
+
+  """The size of the pages to be returned. Default is `1000`."""
+  pageSize: Int
+}
+
+input LocationSearchRequestInput {
+  """An abbreviation which represents this location"""
+  abbreviations: [String]
+
+  """The maximum altitude to search for"""
+  altitudeMax: Float
+
+  """The minimum altitude to search for"""
+  altitudeMin: Float
+  coordinates: GeoJSONSearchAreaInput
+
+  """
+  [ISO_3166-1_alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) spec
+  """
+  countryCodes: [String]
+
+  """The full name of the country to search for"""
+  countryNames: [String]
+
+  """
+  List of external reference IDs. Could be a simple strings or a URIs. (use with `externalReferenceSources` parameter)
+  """
+  externalReferenceIDs: [String]
+
+  """
+  List of identifiers for the source system or database of an external reference (use with `externalReferenceIDs` parameter)
+  """
+  externalReferenceSources: [String]
+
+  """The street address of the institute to search for"""
+  instituteAddresses: [String]
+
+  """The name of the institute to search for"""
+  instituteNames: [String]
+
+  """The location ids to search for"""
+  locationDbIds: [String]
+
+  """A human readable names to search for"""
+  locationNames: [String]
+
+  """
+  The type of location this represents (ex. Breeding Location, Storage Location, etc)
+  """
+  locationTypes: [String]
+
+  """
+  Which result page is requested. The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+  """
+  page: Int
+
+  """The size of the pages to be returned. Default is `1000`."""
+  pageSize: Int
+}
+
+input GeoJSONSearchAreaInput {
+  """
+  A geometry as defined by GeoJSON (RFC 7946). In this context, only Point or Polygon geometry are allowed.
+  """
+  geometry: Geometry
+
+  """
+  The literal string "Feature"
+  """
+  type: String
+}
+
+input PersonSearchRequestInput {
+  """email address for this person"""
+  emailAddresses: [String]
+
+  """
+  List of external reference IDs. Could be a simple strings or a URIs. (use with `externalReferenceSources` parameter)
+  """
+  externalReferenceIDs: [String]
+
+  """
+  List of identifiers for the source system or database of an external reference (use with `externalReferenceIDs` parameter)
+  """
+  externalReferenceSources: [String]
+
+  """Persons first name"""
+  firstNames: [String]
+
+  """Persons last name"""
+  lastNames: [String]
+
+  """physical address of this person"""
+  mailingAddresses: [String]
+
+  """Persons middle name"""
+  middleNames: [String]
+
+  """
+  Which result page is requested. The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+  """
+  page: Int
+
+  """The size of the pages to be returned. Default is `1000`."""
+  pageSize: Int
+
+  """Unique ID for this person"""
+  personDbIds: [String]
+
+  """phone number of this person"""
+  phoneNumbers: [String]
+
+  """
+  A systems user ID associated with this person. Different from personDbId because you could have a person who is not a user of the system.
+  """
+  userIDs: [String]
+}
+
+input ProgramSearchRequestInput {
+  """An abbreviation of a program to search for"""
+  abbreviations: [String]
+
+  """Common name for the crop which this program is for"""
+  commonCropNames: [String]
+
+  """
+  List of external reference IDs. Could be a simple strings or a URIs. (use with `externalReferenceSources` parameter)
+  """
+  externalReferenceIDs: [String]
+
+  """
+  List of identifiers for the source system or database of an external reference (use with `externalReferenceIDs` parameter)
+  """
+  externalReferenceSources: [String]
+
+  """The person DbIds of the program leader to search for"""
+  leadPersonDbIds: [String]
+
+  """The names of the program leader to search for"""
+  leadPersonNames: [String]
+
+  """A program objective to search for"""
+  objectives: [String]
+
+  """
+  Which result page is requested. The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+  """
+  page: Int
+
+  """The size of the pages to be returned. Default is `1000`."""
+  pageSize: Int
+
+  """A program identifier to search for"""
+  programDbIds: [String]
+
+  """A name of a program to search for"""
+  programNames: [String]
+}
+
+input StudySearchRequestInput {
+  """Is this study currently active"""
+  active: Boolean
+
+  """Common name for the crop which this program is for"""
+  commonCropNames: [String]
+
+  """
+  List of external reference IDs. Could be a simple strings or a URIs. (use with `externalReferenceSources` parameter)
+  """
+  externalReferenceIDs: [String]
+
+  """
+  List of identifiers for the source system or database of an external reference (use with `externalReferenceIDs` parameter)
+  """
+  externalReferenceSources: [String]
+
+  """List of IDs which uniquely identify germplasm to search for"""
+  germplasmDbIds: [String]
+
+  """List of human readable names to identify germplasm to search for"""
+  germplasmNames: [String]
+
+  """The location ids to search for"""
+  locationDbIds: [String]
+
+  """A human readable names to search for"""
+  locationNames: [String]
+
+  """The DbIds of Variables to search for"""
+  observationVariableDbIds: [String]
+
+  """The names of Variables to search for"""
+  observationVariableNames: [String]
+
+  """
+  Which result page is requested. The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+  """
+  page: Int
+
+  """The size of the pages to be returned. Default is `1000`."""
+  pageSize: Int
+
+  """A program identifier to search for"""
+  programDbIds: [String]
+
+  """A name of a program to search for"""
+  programNames: [String]
+
+  """The ID which uniquely identifies a season"""
+  seasonDbIds: [String]
+
+  """
+  Name of one of the fields within the study object on which results can be sorted
+  """
+  sortBy: SortBy
+
+  """
+  Order results should be sorted. ex. "ASC" or "DESC"
+  """
+  sortOrder: SortOrder
+
+  """A short human readable code for a study"""
+  studyCodes: [String]
+
+  """List of study identifiers to search for"""
+  studyDbIds: [String]
+
+  """List of study names to filter search results"""
+  studyNames: [String]
+
+  """
+  Permanent unique identifier associated with study data. For example, a URI or DOI
+  """
+  studyPUIs: [String]
+
+  """The type of study being performed. ex. "Yield Trial", etc"""
+  studyTypes: [String]
+
+  """The ID which uniquely identifies a trial to search for"""
+  trialDbIds: [String]
+
+  """The human readable name of a trial to search for"""
+  trialNames: [String]
+}
+
+enum SortBy {
+  STUDYDBID
+  TRIALDBID
+  PROGRAMDBID
+  LOCATIONDBID
+  SEASONDBID
+  STUDYTYPE
+  STUDYNAME
+  STUDYLOCATION
+  PROGRAMNAME
+  GERMPLASMDBID
+  OBSERVATIONVARIABLEDBID
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+input TrialSearchRequestInput {
+  """Is this trail currently active"""
+  active: Boolean
+
+  """Common name for the crop which this program is for"""
+  commonCropNames: [String]
+
+  """List of contact entities associated with this trial"""
+  contactDbIds: [String]
+
+  """
+  List of external reference IDs. Could be a simple strings or a URIs. (use with `externalReferenceSources` parameter)
+  """
+  externalReferenceIDs: [String]
+
+  """
+  List of identifiers for the source system or database of an external reference (use with `externalReferenceIDs` parameter)
+  """
+  externalReferenceSources: [String]
+
+  """The location ids to search for"""
+  locationDbIds: [String]
+
+  """A human readable names to search for"""
+  locationNames: [String]
+
+  """
+  Which result page is requested. The page indexing starts at 0 (the first page is 'page'= 0). Default is `0`.
+  """
+  page: Int
+
+  """The size of the pages to be returned. Default is `1000`."""
+  pageSize: Int
+
+  """A program identifier to search for"""
+  programDbIds: [String]
+
+  """A name of a program to search for"""
+  programNames: [String]
+
+  """
+  The end of the overlapping search date range. `searchDateRangeStart` must be before `searchDateRangeEnd`.
+  
+  Return a Trial entity if any of the following cases are true
+  
+  - `searchDateRangeStart` is before `trial.endDate` AND `searchDateRangeEnd` is null 
+  
+  - `searchDateRangeStart` is before `trial.endDate` AND `searchDateRangeEnd` is after `trial.startDate`
+  
+  - `searchDateRangeEnd` is after `trial.startDate` AND `searchDateRangeStart` is null
+  
+  - `searchDateRangeEnd` is after `trial.startDate` AND `searchDateRangeStart` is before `trial.endDate`
+  """
+  searchDateRangeEnd: String
+
+  """
+  The start of the overlapping search date range. `searchDateRangeStart` must be before `searchDateRangeEnd`.
+  
+  Return a Trial entity if any of the following cases are true
+  
+  - `searchDateRangeStart` is before `trial.endDate` AND `searchDateRangeEnd` is null 
+  
+  - `searchDateRangeStart` is before `trial.endDate` AND `searchDateRangeEnd` is after `trial.startDate`
+  
+  - `searchDateRangeEnd` is after `trial.startDate` AND `searchDateRangeStart` is null
+  
+  - `searchDateRangeEnd` is after `trial.startDate` AND `searchDateRangeStart` is before `trial.endDate`
+  """
+  searchDateRangeStart: String
+
+  """List of study identifiers to search for"""
+  studyDbIds: [String]
+
+  """List of study names to filter search results"""
+  studyNames: [String]
+
+  """The ID which uniquely identifies a trial to search for"""
+  trialDbIds: [String]
+
+  """The human readable name of a trial to search for"""
+  trialNames: [String]
+
+  """
+  A permanent identifier for a trial. Could be DOI or other URI formatted identifier.
+  """
+  trialPUIs: [String]
+}
+
+input SeasonInput {
+  """
+  The ID which uniquely identifies a season. For backward compatibility it can be a string like '2012', '1957-2004'
+  """
+  seasonDbId: String!
+
+  """Name of the season. ex. 'Spring', 'Q2', 'Season A', etc."""
+  seasonName: String
+
+  """The 4 digit year of the season."""
+  year: Int
+}
+
+input StudyNewRequestInput {
+  """Is this study currently active"""
+  active: Boolean
+
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """Common name for the crop associated with this study"""
+  commonCropName: String
+
+  """List of contact entities associated with this study"""
+  contacts: [ContactInput]
+
+  """
+  MIAPPE V1.1 (DM-28) Cultural practices - General description of the cultural practices of the study.
+  """
+  culturalPractices: String
+
+  """
+  List of links to extra data files associated with this study. Extra data could include notes, images, and reference data.
+  """
+  dataLinks: [DataLinkInput]
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """
+  The date the study ends
+  
+  MIAPPE V1.1 (DM-15) End date of study - Date and, if relevant, time when the experiment ended
+  """
+  endDate: String
+
+  """
+  Environmental parameters that were kept constant throughout the study and did not change between observation units.
+  
+  MIAPPE V1.1 (DM-57) Environment - Environmental parameters that were kept constant throughout the study and did not change between observation units or assays. Environment characteristics that vary over time, i.e. environmental variables, should be recorded as Observed Variables (see below).
+  """
+  environmentParameters: [EnvironmentParameterInput]
+
+  """
+  The experimental and statistical design full description plus a category PUI taken from crop research ontology or agronomy ontology
+  """
+  experimentalDesign: StudyNewRequestExperimentalDesignInput
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInnerInput]
+
+  """Short description of the facility in which the study was carried out."""
+  growthFacility: StudyNewRequestGrowthFacilityInput
+
+  """The date and time when this study was last modified"""
+  lastUpdate: StudyNewRequestLastUpdateInput
+
+  """The usage license associated with the study data"""
+  license: String
+
+  """The unique identifier for a Location"""
+  locationDbId: String
+
+  """
+  A human readable name for this location
+  
+  MIAPPE V1.1 (DM-18) Experimental site name - The name of the natural site, experimental field, greenhouse, phenotyping facility, etc. where the experiment took place.
+  """
+  locationName: String
+
+  """
+  Observation levels indicate the granularity level at which the measurements are taken. `levelName` defines the level, `levelOrder` defines where that level exists in the hierarchy of levels. `levelOrder`s lower numbers are at the top of the hierarchy (ie field > 0) and higher numbers are at the bottom of the hierarchy (ie plant > 6). 
+  """
+  observationLevels: [ObservationUnitHierarchyLevelInput]
+
+  """
+  MIAPPE V1.1 (DM-25) Observation unit description - General description of the observation units in the study.
+  """
+  observationUnitsDescription: String
+
+  """List of seasons over which this study was performed."""
+  seasons: [String]
+
+  """
+  The date this study started
+  
+  MIAPPE V1.1 (DM-14) Start date of study - Date and, if relevant, time when the experiment started
+  """
+  startDate: String
+
+  """A short human readable code for a study"""
+  studyCode: String
+
+  """
+  The description of this study
+  
+  MIAPPE V1.1 (DM-13) Study description - Human-readable text describing the study
+  """
+  studyDescription: String
+
+  """
+  The human readable name for a study
+  
+  MIAPPE V1.1 (DM-12) Study title - Human-readable text summarising the study
+  """
+  studyName: String
+
+  """
+  A permanent unique identifier associated with this study data. For example, a URI or DOI
+  """
+  studyPUI: String
+
+  """The type of study being performed. ex. "Yield Trial", etc"""
+  studyType: String
+
+  """The ID which uniquely identifies a trial"""
+  trialDbId: String
+
+  """The human readable name of a trial"""
+  trialName: String
+}
+
+input ContactInput {
+  """
+  The ID which uniquely identifies this contact
+  
+  MIAPPE V1.1 (DM-33) Person ID - An identifier for the data submitter. If that submitter is an individual, ORCID identifiers are recommended.
+  """
+  contactDbId: String!
+
+  """
+  The contacts email address
+  
+  MIAPPE V1.1 (DM-32) Person email - The electronic mail address of the person.
+  """
+  email: String
+
+  """
+  The name of the institution which this contact is part of
+  
+  MIAPPE V1.1 (DM-35) Person affiliation - The institution the person belongs to
+  """
+  instituteName: String
+
+  """
+  The full name of this contact person
+  
+  MIAPPE V1.1 (DM-31) Person name - The name of the person (either full name or as used in scientific publications)
+  """
+  name: String
+
+  """
+  The Open Researcher and Contributor ID for this contact person (orcid.org)
+  
+  MIAPPE V1.1 (DM-33) Person ID - An identifier for the data submitter. If that submitter is an individual, ORCID identifiers are recommended.
+  """
+  orcid: String
+
+  """
+  The type of person this contact represents (ex: Coordinator, Scientist, PI, etc.)
+  
+  MIAPPE V1.1 (DM-34) Person role - Type of contribution of the person to the investigation
+  """
+  type: String
+}
+
+input DataLinkInput {
+  """
+  The structure of the data within a file. For example - VCF, table, image archive, multispectral image archives in EDAM ontology (used in Galaxy)
+  
+  MIAPPE V1.1 (DM-38) Data file description - Description of the format of the data file. May be a standard file format name, or a description of organization of the data in a tabular file.
+  """
+  dataFormat: String
+
+  """
+  The general description of this data link
+  
+  MIAPPE V1.1 (DM-38) Data file description - Description of the format of the data file. May be a standard file format name, or a description of organization of the data in a tabular file.
+  """
+  description: String
+
+  """
+  The MIME type of the file (ie text/csv, application/excel, application/zip).
+  
+  MIAPPE V1.1 (DM-38) Data file description - Description of the format of the data file. May be a standard file format name, or a description of organization of the data in a tabular file.
+  """
+  fileFormat: String
+
+  """
+  The name of the external data link
+  
+  MIAPPE V1.1 (DM-38) Data file description - Description of the format of the data file. May be a standard file format name, or a description of organization of the data in a tabular file.
+  """
+  name: String
+
+  """
+  The description of the origin or ownership of this linked data. Could be a formal reference to software, method, or workflow.
+  """
+  provenance: String
+
+  """
+  The general type of data. For example- Genotyping, Phenotyping raw data, Phenotyping reduced data, Environmental, etc
+  """
+  scientificType: String
+
+  """
+  URL describing the location of this data file to view or download
+  
+  MIAPPE V1.1 (DM-37) Data file link - Link to the data file (or digital object) in a public database or in a persistent institutional repository; or identifier of the data file when submitted together with the MIAPPE submission.
+  """
+  url: String
+
+  """
+  The version number for this data 
+  
+  MIAPPE V1.1 (DM-39) Data file version - The version of the dataset (the actual data).
+  """
+  version: String
+}
+
+input EnvironmentParameterInput {
+  """
+  Human-readable value of the environment parameter (defined above) constant within the experiment
+  """
+  description: String!
+
+  """
+  Name of the environment parameter constant within the experiment
+  
+  MIAPPE V1.1 (DM-58) Environment parameter - Name of the environment parameter constant within the experiment. 
+  """
+  parameterName: String!
+
+  """URI pointing to an ontology class for the parameter"""
+  parameterPUI: String
+
+  """Unit of the value for this parameter"""
+  unit: String
+
+  """URI pointing to an ontology class for the unit"""
+  unitPUI: String
+
+  """
+  Numerical or categorical value
+  
+  MIAPPE V1.1 (DM-59) Environment parameter value - Value of the environment parameter (defined above) constant within the experiment.
+  """
+  value: String
+
+  """URI pointing to an ontology class for the parameter value"""
+  valuePUI: String
+}
+
+"""
+The experimental and statistical design full description plus a category PUI taken from crop research ontology or agronomy ontology
+"""
+input StudyNewRequestExperimentalDesignInput {
+  """
+  MIAPPE V1.1 (DM-22) Description of the experimental design - Short description of the experimental design, possibly including statistical design. In specific cases, e.g. legacy datasets or data computed from several studies, the experimental design can be "unknown"/"NA", "aggregated/reduced data", or simply 'none'.
+  """
+  description: String
+
+  """
+  MIAPPE V1.1 (DM-23) Type of experimental design - Type of experimental  design of the study, in the form of an accession number from the Crop Ontology.
+  """
+  pUI: String
+}
+
+"""Short description of the facility in which the study was carried out."""
+input StudyNewRequestGrowthFacilityInput {
+  """
+  MIAPPE V1.1 (DM-26) Description of growth facility - Short description of the facility in which the study was carried out.
+  """
+  description: String
+
+  """
+  MIAPPE V1.1 (DM-27) Type of growth facility - Type of growth facility in which the study was carried out, in the form of an accession number from the Crop Ontology.
+  """
+  pUI: String
+}
+
+"""The date and time when this study was last modified"""
+input StudyNewRequestLastUpdateInput {
+  timestamp: String
+  version: String
+}
+
+"""
+Observation levels indicate the granularity level at which the measurements are taken. `levelName` defines the level, `levelOrder` defines where that level exists in the hierarchy of levels. `levelOrder`s lower numbers are at the top of the hierarchy (ie field > 0) and higher numbers are at the bottom of the hierarchy (ie plant > 6). 
+"""
+input ObservationUnitHierarchyLevelInput {
+  """A name for this level"""
+  levelName: LevelName
+
+  """
+  `levelOrder` defines where that level exists in the hierarchy of levels. `levelOrder`'s lower numbers are at the top of the hierarchy (ie field -> 1) and higher numbers are at the bottom of the hierarchy (ie plant -> 9).
+  """
+  levelOrder: Int
+}
+
+input TrialNewRequestInput {
+  """Is this trail currently active"""
+  active: Boolean
+
+  """Additional arbitrary info"""
+  additionalInfo: JSON
+
+  """Common name for the crop associated with this trial"""
+  commonCropName: String
+
+  """List of contact entities associated with this trial"""
+  contacts: [ContactInput]
+
+  """License and citation information for the data in this trial"""
+  datasetAuthorships: [TrialNewRequestDatasetAuthorshipsInput]
+
+  """A URL to the human readable documentation of this object"""
+  documentationURL: String
+
+  """The date this trial ends"""
+  endDate: String
+
+  """
+  An array of external reference ids. These are references to this piece of data in an external system. Could be a simple string or a URI.
+  """
+  externalReferences: [ExternalReferencesInnerInput]
+
+  """A program identifier to search for"""
+  programDbId: String
+
+  """Human readable name of the program"""
+  programName: String
+
+  """
+  MIAPPE V1.1 (DM-9) Associated publication - An identifier for a literature publication where the investigation is described. Use of DOIs is recommended.
+  """
+  publications: [TrialNewRequestPublicationsInput]
+
+  """The date this trial started"""
+  startDate: String
+
+  """
+  The human readable description of a trial
+  
+  MIAPPE V1.1 (DM-4) Investigation description - Human-readable text describing the investigation in more detail.
+  """
+  trialDescription: String
+
+  """
+  The human readable name of a trial
+  
+  MIAPPE V1.1 (DM-3) Investigation title - Human-readable string summarising the investigation.
+  """
+  trialName: String
+
+  """
+  A permanent identifier for a trial. Could be DOI or other URI formatted identifier.
+  """
+  trialPUI: String
+}
+
+input TrialNewRequestDatasetAuthorshipsInput {
+  datasetPUI: String
+
+  """
+  MIAPPE V1.1 (DM-7) License - License for the reuse of the data associated with this investigation. The Creative Commons licenses cover most use cases and are recommended.
+  """
+  license: String
+
+  """
+  MIAPPE V1.1 (DM-6) Public release date - Date of first public release of the dataset presently being described.
+  """
+  publicReleaseDate: String
+
+  """
+  MIAPPE V1.1 (DM-5) Submission date - Date of submission of the dataset presently being described to a host repository.
+  """
+  submissionDate: String
+}
+
+input TrialNewRequestPublicationsInput {
+  publicationPUI: String
+  publicationReference: String
+}
